@@ -1,5 +1,5 @@
 {
-  "name": "hypercore-scale-tests",
+  "name": "@holepunchto/hypercore-scale-tests",
   "version": "0.0.0",
   "description": "",
   "main": "index.js",
