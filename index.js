@@ -3,7 +3,7 @@ const RAM = require('random-access-memory')
 const setupTestnet = require('hyperdht/testnet')
 const { setTraceFunction } = require('hypertrace')
 
-async function main() {
+async function main () {
   // const nrExtraSeeders = 0
   const nrDownloaders = 1
   const nrBlocks = process.argv[2]
@@ -16,7 +16,7 @@ async function main() {
   trace()
 
   const creator = setupPeer({ bootstrap, storage: RAM.reusable() })
-  for (let i = 0; i< nrCores; i++) {
+  for (let i = 0; i < nrCores; i++) {
     const storage = `core-${i}-${Math.random()}`
     await creator.createCore(storage, nrBlocks)
   }
@@ -24,7 +24,7 @@ async function main() {
   console.log('Setup creator')
 
   const downloaders = []
-  for (let i = 0; i <nrDownloaders; i++) {
+  for (let i = 0; i < nrDownloaders; i++) {
     downloaders.push(setupPeer({ bootstrap, storage: RAM.reusable() }))
   }
 
@@ -43,7 +43,6 @@ function trace () {
   })
 
   setInterval(() => console.log(counters), 1000)
-
 }
 
 main()

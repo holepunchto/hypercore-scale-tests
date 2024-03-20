@@ -2,7 +2,7 @@ const Hyperswarm = require('hyperswarm')
 const Corestore = require('corestore')
 const idEnc = require('hypercore-id-encoding')
 
-module.exports = function setupPeer ({ bootstrap, storage, logger=console } = {}) {
+module.exports = function setupPeer ({ bootstrap, storage, logger = console } = {}) {
   const swarm = new Hyperswarm({ bootstrap })
   const store = new Corestore(storage)
 
