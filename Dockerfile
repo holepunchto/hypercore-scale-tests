@@ -11,10 +11,10 @@ COPY node_modules /home/runner/node_modules
 COPY lib /home/runner/lib
 COPY run.js /home/runner/
 
-ENV METRICS_PORT=8080
-ENV METRICS_HOST=0.0.0.0
+ENV HYPERCORE_SCALE_METRICS_PORT=8080
+ENV HYPERCORE_SCALE_METRICS_HOST=0.0.0.0
 
-HEALTHCHECK --retries=1 --timeout=5s CMD curl --fail http://127.0.0.1:${METRICS_PORT}/health
+HEALTHCHECK --retries=1 --timeout=5s CMD curl --fail http://127.0.0.1:${HYPERCORE_SCALE_METRICS_HOST}/health
 
 WORKDIR /home/run/
 ENTRYPOINT ["node", "/home/runner/run.js"]

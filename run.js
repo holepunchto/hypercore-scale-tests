@@ -6,9 +6,9 @@ const goodbye = require('graceful-goodbye')
 
 function loadConfig () {
   return {
-    metricsPort: process.env.METRICS_PORT || 0,
-    metricsHost: process.env.METRICS_HOST || '127.0.0.1',
-    testInterval: 1000 * 60
+    metricsPort: process.env.HYPERCORE_SCALE_METRICS_PORT || 0,
+    metricsHost: process.env.HYPERCORE_SCALE_METRICS_HOST || '127.0.0.1',
+    testInterval: process.env.HYPERCORE_SCALE_TEST_INTERVAL_MS || 1000 * 60 * 60
   }
 }
 
