@@ -8,7 +8,7 @@ function loadConfig () {
   return {
     metricsPort: process.env.HYPERCORE_SCALE_METRICS_PORT || 0,
     metricsHost: process.env.HYPERCORE_SCALE_METRICS_HOST || '127.0.0.1',
-    testInterval: process.env.HYPERCORE_SCALE_TEST_INTERVAL_MS || 1000 * 60 * 60
+    testInterval: process.env.HYPERCORE_SCALE_TEST_INTERVAL_MS || 1000 * 60 // * 60
   }
 }
 
@@ -55,7 +55,7 @@ function setupMonitoringServer (runner) {
 function setupMetrics (runner) {
   const metric = new promClient.Gauge({
     name: 'hypercore_experiment_write_ms',
-    help: `ms to write ${runner.params.blockByteSize} blocks of ${runner.params.blockByteSize} bytes`,
+    help: `ms to write ${1000} blocks of ${1000} bytes`, // TODO:
     collect: function () {
       let res = -1
       if (runner.lastRunTime != null) res = runner.lastRunTime
