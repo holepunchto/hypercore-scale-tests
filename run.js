@@ -3,6 +3,31 @@ const fastify = require('fastify')
 const pino = require('pino')
 const Runner = require('./lib/experiment-runner')
 const goodbye = require('graceful-goodbye')
+const RAM = require('random-access-memory')
+const Hyperbee = require('hyperbee')
+const Corestore = require('corestore')
+
+const { WriteTest, ReadTest } = require('./lib/experiments')
+
+const EXPERIMENTS = [
+  {
+    experimentClass: WriteTest,
+    params: {
+      nrBlocks: 100000,
+      blockByteSize: 1000
+    },
+    name: 'write_100k_blocks',
+    description: 'write 100K hypercore blocks to disk'
+  }, {
+    experimentClass: ReadTest,
+    params: {
+      nrBlocks: 100000,
+      blockByteSize: 1000
+    },
+    name: 'read_100K_blocks',
+    description: 'read 100K hypercore blocks from disk'
+  }
+]
 
 function loadConfig () {
   return {
@@ -15,8 +40,22 @@ function loadConfig () {
 async function main () {
   const config = loadConfig()
   const logger = pino()
+  const store = new Corestore(RAM.reusable())
+  const resBee = new Hyperbee(
+    store.get({ name: 'res-bee' }),
+    {
+      keyEncoding: 'utf-8',
+      valueEncoding: 'json'
+    }
+  )
 
-  const runner = new Runner(config.testInterval, logger)
+  const runner = new Runner(
+    EXPERIMENTS,
+    resBee,
+    logger,
+    { testInterval: config.testInterval }
+  )
+
   const server = setupMonitoringServer(runner)
   goodbye(async () => {
     logger.info('Closing runner')
@@ -27,7 +66,7 @@ async function main () {
     logger.info('Exiting')
   })
 
-  await server.listen({ host: config.metricsHost, port: config.metricsPort })
+  server.listen({ host: config.metricsHost, port: config.metricsPort })
 
   await runner.ready()
   logger.info('Fully setup')
@@ -36,8 +75,7 @@ async function main () {
 function setupMonitoringServer (runner) {
   // promClient.registerDefaultMetrics()
 
-  // TODO: labels for params
-  setupMetrics(runner)
+  setupMetrics(runner.resBee, runner.experiments)
 
   const server = fastify({ logger: runner.logger })
   server.get('/metrics', { logLevel: 'warn' }, async function (req, reply) {
@@ -52,18 +90,21 @@ function setupMonitoringServer (runner) {
   return server
 }
 
-function setupMetrics (runner) {
-  const metric = new promClient.Gauge({
-    name: 'hypercore_experiment_write_ms',
-    help: `ms to write ${1000} blocks of ${1000} bytes`, // TODO:
-    collect: function () {
-      let res = -1
-      if (runner.lastRunTime != null) res = runner.lastRunTime
-      this.set(res)
-    }
-  })
+function setupMetrics (bee, experimentNames) {
+  const metrics = []
+  for (const { name, description } of experimentNames) {
+    const runtimeMetric = new promClient.Gauge({
+      name: `${name}_runtime_ms`, // DEVNOTE: assumes runtime is always reported in ms
+      help: `ms taken to ${description}`,
+      collect: async function () {
+        const res = await bee.get(name)
+        this.set(res?.value.runTimeMs || -1)
+      }
+    })
+    metrics.push(runtimeMetric)
+  }
 
-  return metric
+  return metrics
 }
 
 main()
