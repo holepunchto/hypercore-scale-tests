@@ -33,14 +33,15 @@ function loadConfig () {
   return {
     metricsPort: process.env.HYPERCORE_SCALE_METRICS_PORT || 0,
     metricsHost: process.env.HYPERCORE_SCALE_METRICS_HOST || '127.0.0.1',
-    testInterval: process.env.HYPERCORE_SCALE_TEST_INTERVAL_MS || 1000 * 60 // * 60
+    testInterval: process.env.HYPERCORE_SCALE_TEST_INTERVAL_MS || 1000 * 60, // * 60
+    storage: process.env.HYPERCORE_SCALE_STORAGE || 'hypercore-scale-tests-corestore'
   }
 }
 
 async function main () {
   const config = loadConfig()
   const logger = pino()
-  const store = new Corestore(RAM.reusable())
+  const store = new Corestore(config.storage)
   const resBee = new Hyperbee(
     store.get({ name: 'res-bee' }),
     {
