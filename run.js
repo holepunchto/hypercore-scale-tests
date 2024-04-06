@@ -3,7 +3,6 @@ const fastify = require('fastify')
 const pino = require('pino')
 const Runner = require('./lib/experiment-runner')
 const goodbye = require('graceful-goodbye')
-const RAM = require('random-access-memory')
 const Hyperbee = require('hyperbee')
 const Corestore = require('corestore')
 
