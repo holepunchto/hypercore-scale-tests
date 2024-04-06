@@ -33,7 +33,7 @@ function loadConfig () {
     metricsPort: process.env.HYPERCORE_SCALE_METRICS_PORT || 0,
     metricsHost: process.env.HYPERCORE_SCALE_METRICS_HOST || '127.0.0.1',
     testInterval: process.env.HYPERCORE_SCALE_TEST_INTERVAL_MS || 1000 * 60, // * 60
-    storage: process.env.HYPERCORE_SCALE_STORAGE || 'hypercore-scale-tests-corestore'
+    storage: process.env.HYPERCORE_SCALE_STORAGE_PATH || 'hypercore-scale-tests-corestore'
   }
 }
 
