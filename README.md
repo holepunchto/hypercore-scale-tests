@@ -39,6 +39,8 @@ To scrape the metrics, point a prometheus instance to the exposed port.
 
 Inherit from the `Experiment` class, then implement the `_runExperiment` method, and optionally the `_setup` method.
 
+Add the experiment to the config in `./run.js`
+
 The runtime of the experiment is the runtime of the `_runExperiment` method, so `_setup` time is not taken into account.
 
 Experiments should be cancelable: the experiment runner closes an experiment when it takes too long, or when it's shutting down. Each experiment is responsible for being nice, so `if (this.closing) return` statements should be added after async calls.
