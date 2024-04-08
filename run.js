@@ -5,11 +5,12 @@ const Hyperbee = require('hyperbee')
 const Corestore = require('corestore')
 
 const setupMonitoringServer = require('./lib/metrics')
-const { WriteTest, ReadTest } = require('./lib/experiments')
+const WriteExperiment = require('./lib/write-experiment')
+const ReadExperiment = require('./lib/read-experiment')
 
 const EXPERIMENTS = [
   {
-    experimentClass: WriteTest,
+    experimentClass: WriteExperiment,
     params: {
       nrBlocks: 100000,
       blockByteSize: 1000
@@ -17,7 +18,7 @@ const EXPERIMENTS = [
     name: 'write_100k_blocks',
     description: 'write 100K hypercore blocks to disk'
   }, {
-    experimentClass: ReadTest,
+    experimentClass: ReadExperiment,
     params: {
       nrBlocks: 100000,
       blockByteSize: 1000
