@@ -1,42 +1,46 @@
 # Hypercore Scale Tests
 
-## Install
-`npm i`
+Scaling tests which are simple enough to run in a single process.
 
-Replace replicator's `Peer._requestRangeBlock` with the following, which adds tracing
+This module currently combines 2 services:
+- An experiment runner (`./lib/experiment-runner.js`) to continuously run a list of experiments and store the results in a hyperbee
+- A prometheus metrics exporter (`./lib/metrics.js`) which exposes a `/metrics` endpoint with the runtime of the latest run of each experiment
+
+If many experiments are added (more than can be run by a single process), it might make sense to deploy these 2 services separately and to set up replication on the hyperbee. That way, a metrics exporter can report metrics from several experiment runners.
+
+## Install + Run
+
+For quick tests:
+
+`npm i && node run.js | pino-pretty`
+
+This module is easiest to deploy as a docker image.
+
+There are two release streams:
+- The default one tagged as `latest`, built when a new release of this package is made
+- A nightly build tagged `build-with-latest-deps`, containing the latest dependencies of all packages, within the specified major versions
+
+The nightly built is triggered with a schedule in `./.github/workflows/ci.yml`.
+
+The intended way of deploying this is with a cron script which updates to the latest nightly build every day:
 
 ```
-  _requestRangeBlock (index, length) {
-    this.tracer.trace('_requestRangeBlock')
-    if (this.core.bitfield.get(index) === true || !this._hasTreeParent(index)) return false
-
-    const b = this.replicator._blocks.add(index, PRIORITY.NORMAL)
-    if (b.inflight.length > 0) return false
-
-    const req = this._makeRequest(index >= length, b.priority)
-    this.tracer.trace('_requestRangeBlockmadeRequest')
-
-    // If the request cannot be satisfied, dealloc the block request if no one is subscribed to it
-    if (req === null) {
-      b.gc()
-      this.tracer.trace('_requestRangeBlock-insta-gc')
-      return false
-    }
-
-    this.tracer.trace('_requestRangeBlock_adding-inflight')
-    req.block = { index, nodes: 0 }
-
-    b.inflight.push(req)
-    this._send(req)
-
-    // Don't think this will ever happen, as the pending queue is drained before the range queue
-    // but doesn't hurt to check this explicitly here also.
-    if (b.queued) b.queued = false
-    return true
-  }
+sudo docker pull ghcr.io/holepunchto/hypercore-scale-tests:build-with-latest-deps
+sudo docker stop hypercore-scale-tests
+sudo docker rm hypercore-scale-tests
+sudo docker run -d -p 127.0.0.1:52416:8080 --env HYPERCORE_SCALE_TEST_INTERVAL_MS=180000 --env HYPERCORE_SCALE_STORAGE_PATH=hypercore-scale-tests-corestore --name hypercore-scale-tests --mount type=volume,source=hypercore-scale-tests-volume,destination=/home/runner/hypercore-scale-tests-corestore --restart=on-failure --memory=1024M ghcr.io/holepunchto/hypercore-scale-tests:build-with-latest-deps
 ```
 
-## Run
+Note: an action which redeploys when it detects an update to `ghcr.io/holepunchto/hypercore-scale-tests:build-with-latest-deps` would also work. If that is possible, it would arguably be cleaner.
 
-Then run
-`node index.js <nrBlocks>`
+To scrape the metrics, point a prometheus instance to the exposed port.
+
+## Adding New Experiments
+
+Inherit from the `Experiment` class, then implement the `_runExperiment` method, and optionally the `_setup` method.
+
+Add the experiment to the config in `./run.js`
+
+The runtime of the experiment is the runtime of the `_runExperiment` method, so `_setup` time is not taken into account.
+
+Experiments should be cancelable: the experiment runner closes an experiment when it takes too long, or when it's shutting down. Each experiment is responsible for being nice, so `if (this.closing) return` statements should be added after async calls.

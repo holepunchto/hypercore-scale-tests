@@ -1,3 +1,5 @@
+/* OUTDATED
+
 const setupPeer = require('./setup-peer')
 const RAM = require('random-access-memory')
 const setupTestnet = require('hyperdht/testnet')
@@ -46,3 +48,4 @@ function trace () {
 }
 
 main()
+*/
