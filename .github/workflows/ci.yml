@@ -3,6 +3,7 @@ on:
   push:
     branches:
       - main
+      - trigger-daily-build-to-test
     tags:
       - '*'
   pull_request:
@@ -62,7 +63,6 @@ jobs:
           labels: ${{ steps.meta.outputs.labels }}
 
   daily_docker_build:
-    if: ${{ github.event_name == 'schedule' }}
     runs-on: ubuntu-latest
     steps:
       - # Needed for buildX, which accesses cwd
