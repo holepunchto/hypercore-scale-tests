@@ -94,7 +94,7 @@ function setupMetrics (bee, experimentNames) {
   const metrics = []
   for (const { name, description } of experimentNames) {
     const runtimeMetric = new promClient.Gauge({
-      name: `${name}_runtime_ms`, // DEVNOTE: assumes runtime is always reported in ms
+      name: `hypercore_scale_${name}_runtime_ms`, // DEVNOTE: assumes runtime is always reported in ms
       help: `ms taken to ${description}`,
       collect: async function () {
         const res = await bee.get(name)
