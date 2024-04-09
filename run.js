@@ -40,11 +40,38 @@ const EXPERIMENTS = [
   {
     experimentClass: WriteExperiment,
     params: {
-      nrBlocks: 100000,
+      nrBlocks: 100 * 1000,
       blockByteSize: 1000
     },
-    name: 'write_100k_blocks',
-    description: 'write 100K hypercore blocks to disk'
+    name: 'write_100k_blocks_of_1kb',
+    description: 'write 100K hypercore blocks of 1kb to disk (100Mb)'
+  },
+  {
+    experimentClass: WriteExperiment,
+    params: {
+      nrBlocks: 10 * 1000,
+      blockByteSize: 10 * 1000
+    },
+    name: 'write_10k_blocks_of_10kb',
+    description: 'write 10K hypercore blocks of 10kb to disk (100Mb)'
+  },
+  {
+    experimentClass: WriteExperiment,
+    params: {
+      nrBlocks: 1 * 1000,
+      blockByteSize: 100 * 1000
+    },
+    name: 'write_1k_blocks_of_100kb',
+    description: 'write 1K hypercore blocks of 100kb to disk (100mb)'
+  },
+  {
+    experimentClass: WriteExperiment,
+    params: {
+      nrBlocks: 100,
+      blockByteSize: 1000 * 1000
+    },
+    name: 'write_100_blocks_of_1mb',
+    description: 'write 100 hypercore blocks of 1mb to disk (100mb)'
   },
   {
     experimentClass: ReadExperiment,
@@ -61,8 +88,8 @@ function loadConfig () {
   return {
     metricsPort: process.env.HYPERCORE_SCALE_METRICS_PORT || 0,
     metricsHost: process.env.HYPERCORE_SCALE_METRICS_HOST || '127.0.0.1',
-    testInterval: process.env.HYPERCORE_SCALE_TEST_INTERVAL_MS || 1000 * 60 * 10,
-    storage: process.env.HYPERCORE_SCALE_STORAGE_PATH || 'hypercore-scale-temp-storage'
+    testInterval: process.env.HYPERCORE_SCALE_TEST_INTERVAL_MS || 1000 * 60 * 5,
+    storage: process.env.HYPERCORE_SCALE_STORAGE_PATH || 'hypercore-scale-corestore'
   }
 }
 
