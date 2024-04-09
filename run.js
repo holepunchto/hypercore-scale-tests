@@ -7,8 +7,36 @@ const Corestore = require('corestore')
 const setupMonitoringServer = require('./lib/metrics')
 const WriteExperiment = require('./lib/write-experiment')
 const ReadExperiment = require('./lib/read-experiment')
+const ReadStreamDownloadExperiment = require('./lib/read-stream-download-experiment')
 
 const EXPERIMENTS = [
+  {
+    experimentClass: ReadStreamDownloadExperiment,
+    params: {
+      nrBlocks: 100 * 1000,
+      blockByteSize: 1000
+    },
+    name: 'stream_download_100k_blocks_of_1kb',
+    description: 'download 100K blocks of 1kb (100Mb) over a readstream'
+  },
+  {
+    experimentClass: ReadStreamDownloadExperiment,
+    params: {
+      nrBlocks: 10 * 1000,
+      blockByteSize: 10 * 1000
+    },
+    name: 'stream_download_10k_blocks_of_10kb',
+    description: 'download 10K blocks of 10kb (100Mb) over a readstream'
+  },
+  {
+    experimentClass: ReadStreamDownloadExperiment,
+    params: {
+      nrBlocks: 1000,
+      blockByteSize: 100 * 1000
+    },
+    name: 'stream_download_1k_blocks_of_100kb',
+    description: 'download 1K blocks of 100kb (100Mb) over a readstream'
+  },
   {
     experimentClass: WriteExperiment,
     params: {
@@ -17,7 +45,8 @@ const EXPERIMENTS = [
     },
     name: 'write_100k_blocks',
     description: 'write 100K hypercore blocks to disk'
-  }, {
+  },
+  {
     experimentClass: ReadExperiment,
     params: {
       nrBlocks: 100000,
@@ -32,8 +61,8 @@ function loadConfig () {
   return {
     metricsPort: process.env.HYPERCORE_SCALE_METRICS_PORT || 0,
     metricsHost: process.env.HYPERCORE_SCALE_METRICS_HOST || '127.0.0.1',
-    testInterval: process.env.HYPERCORE_SCALE_TEST_INTERVAL_MS || 1000 * 60, // * 60
-    storage: process.env.HYPERCORE_SCALE_STORAGE_PATH || 'hypercore-scale-tests-corestore'
+    testInterval: process.env.HYPERCORE_SCALE_TEST_INTERVAL_MS || 1000 * 60 * 10,
+    storage: process.env.HYPERCORE_SCALE_STORAGE_PATH || 'hypercore-scale-temp-storage'
   }
 }
 

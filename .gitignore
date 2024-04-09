@@ -1,4 +1,4 @@
 node_modules/
 package-lock.json
-hypercore-scale-tests-corestore
+hypercore-scale-temp-storage
 temp-scale-test-storage
