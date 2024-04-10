@@ -28,7 +28,15 @@ The intended way of deploying this is with a cron script which updates to the la
 sudo docker pull ghcr.io/holepunchto/hypercore-scale-tests:build-with-latest-deps
 sudo docker stop hypercore-scale-tests
 sudo docker rm hypercore-scale-tests
-sudo docker run -d -p 127.0.0.1:52416:8080 --env HYPERCORE_SCALE_TEST_INTERVAL_MS=180000 --env HYPERCORE_SCALE_STORAGE_PATH=hypercore-scale-tests-corestore --name hypercore-scale-tests --mount type=volume,source=hypercore-scale-tests-volume,destination=/home/runner/hypercore-scale-tests-corestore --restart=on-failure --memory=1024M ghcr.io/holepunchto/hypercore-scale-tests:build-with-latest-deps
+sudo docker run -d -p 127.0.0.1:52416:8080 \
+  --env HYPERCORE_SCALE_TEST_INTERVAL_MS=300000 \
+  --env HYPERCORE_SCALE_EXPERIMENTS_FILE_LOC=/home/runner/config/config.json \
+  --name hypercore-scale-tests \
+  --mount type=volume,source=hypercore-scale-tests-volume,destination=/home/runner/corestore \
+  --mount type=bind,source=/etc/hypercore-scale-experiments,destination=/home/runner/config,readonly \
+  --restart=on-failure \
+  --memory=1024M \
+  ghcr.io/holepunchto/hypercore-scale-tests:build-with-latest-deps
 ```
 
 Note: an action which redeploys when it detects an update to `ghcr.io/holepunchto/hypercore-scale-tests:build-with-latest-deps` would also work. If that is possible, it would arguably be cleaner.
