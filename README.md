@@ -35,12 +35,20 @@ Note: an action which redeploys when it detects an update to `ghcr.io/holepuncht
 
 To scrape the metrics, point a prometheus instance to the exposed port.
 
-## Adding New Experiments
+## Config
 
-Inherit from the `Experiment` class, then implement the `_runExperiment` method, and optionally the `_setup` method.
+ENV vars can be used to change the basic parameters (see `run.js`).
+
+The experiments to run must be defined in a separate config file. By default this is `config.json`
+
+See [example-config.json](example-config.json) for its structure.
+
+## Adding New Experiment Types
+
+Inherit from the `Experiment` class, then implement the `_runExperiment` method, and optionally the `_setup` and `_teardown` methods.
 
 Add the experiment to the config in `./run.js`
 
 The runtime of the experiment is the runtime of the `_runExperiment` method, so `_setup` time is not taken into account.
 
-Experiments should be cancelable: the experiment runner closes an experiment when it takes too long, or when it's shutting down. Each experiment is responsible for being nice, so `if (this.closing) return` statements should be added after async calls.
+Experiments should be cancelable at all times: the experiment runner closes an experiment when it takes too long, or when it's shutting down. Each experiment is responsible for being nice, so `if (this.closing) return` statements should be added after async calls (also in the `_setup` and `_teardown` steps).
