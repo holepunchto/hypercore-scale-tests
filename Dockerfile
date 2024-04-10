@@ -19,5 +19,5 @@ RUN mkdir $HYPERCORE_SCALE_STORAGE_PATH # Ensures correct permissions if coresto
 
 HEALTHCHECK --retries=1 --timeout=5s CMD curl --fail http://127.0.0.1:${HYPERCORE_SCALE_METRICS_PORT}/health
 
-WORKDIR /home/run/
+WORKDIR /home/runner/
 ENTRYPOINT ["node", "/home/runner/run.js"]
