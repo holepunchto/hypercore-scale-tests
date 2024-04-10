@@ -1,0 +1,32 @@
+{
+  "downloadReadStream": [
+    {
+      "nrBlocks": 10,
+      "blockByteSize": 10
+    },
+    {
+      "nrBlocks": 10,
+      "blockByteSize": 100
+    }
+  ],
+  "write": [
+    {
+      "nrBlocks": 10,
+      "blockByteSize": 10
+    },
+    {
+      "nrBlocks": 10,
+      "blockByteSize": 100
+    }
+  ],
+  "read": [
+    {
+      "nrBlocks": 10,
+      "blockByteSize": 10
+    },
+    {
+      "nrBlocks": 10,
+      "blockByteSize": 100
+    }
+  ]
+}
