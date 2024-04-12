@@ -62,6 +62,11 @@ test('end to end test', async t => {
     }
   })
 
+  proc.stderr.on('data', d => {
+    console.error(d.toString())
+    t.fail('There is stderr output')
+  })
+
   proc.on('exit', (code) => {
     tProcessDone.pass('Process exited')
   })
@@ -70,10 +75,12 @@ test('end to end test', async t => {
   await tRunExperiments
 
   const tMetrics = t.test('metric entries')
-  tMetrics.plan(6)
+  tMetrics.plan(8)
 
   const metrics = (await axios.get(`${metricsUrl}/metrics`)).data
   const expectedEntries = [
+    'hypercorescale_download{nr_blocks="10",block_byte_size="10"}',
+    'hypercorescale_download{nr_blocks="10",block_byte_size="100"}',
     'hypercorescale_download_read_stream{nr_blocks="10",block_byte_size="10"}',
     'hypercorescale_download_read_stream{nr_blocks="10",block_byte_size="100"}',
     'hypercorescale_read{nr_blocks="10",block_byte_size="10"}',
