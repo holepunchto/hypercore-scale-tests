@@ -9,6 +9,7 @@ const setupMonitoringServer = require('./lib/metrics')
 const WriteExperiment = require('./lib/write-experiment')
 const ReadExperiment = require('./lib/read-experiment')
 const ReadStreamDownloadExperiment = require('./lib/read-stream-download-experiment')
+const DownloadExperiment = require('./lib/download-experiment')
 
 function loadConfig () {
   const res = {
@@ -71,6 +72,21 @@ async function main () {
 
 async function parseExperimentsConfig (config) {
   const experiments = []
+
+  for (const expConfig of config.download) {
+    const params = {
+      nrBlocks: expConfig.nrBlocks,
+      blockByteSize: expConfig.blockByteSize
+    }
+
+    experiments.push({
+      experimentClass: DownloadExperiment,
+      params,
+      name: 'download',
+      description: 'Download blocks using a download range'
+    })
+  }
+
   for (const expConfig of config.downloadReadStream) {
     const params = {
       nrBlocks: expConfig.nrBlocks,

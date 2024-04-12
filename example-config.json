@@ -1,4 +1,14 @@
 {
+  "download": [
+    {
+      "nrBlocks": 10,
+      "blockByteSize": 10
+    },
+    {
+      "nrBlocks": 10,
+      "blockByteSize": 100
+    }
+  ],
   "downloadReadStream": [
     {
       "nrBlocks": 10,
