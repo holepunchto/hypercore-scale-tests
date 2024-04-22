@@ -17,7 +17,7 @@ For quick tests:
 This module is easiest to deploy as a docker image.
 
 There are two release streams:
-- The default one tagged as `latest`, built when a new release of this package is made
+- The default one tagged with the package version (and `latest`), built when a new release of this package is made
 - A nightly build tagged `build-with-latest-deps`, containing the latest dependencies of all packages, within the specified major versions
 
 The nightly built is triggered with a schedule in `./.github/workflows/ci.yml`.
@@ -53,9 +53,9 @@ See [example-config.json](example-config.json) for its structure.
 
 ## Adding New Experiment Types
 
-Inherit from the `Experiment` class, then implement the `_runExperiment` method, and optionally the `_setup` and `_teardown` methods.
-
-Add the experiment to the config in `./run.js`
+- Inherit from the `Experiment` class, then implement the `_runExperiment` method, and optionally the `_setup` and `_teardown` methods.
+- Add the experiment to `parseExperimentsConfig` in `./run.js`
+- Add an example config for a very short run to `example-config.json`, then update the test in `test.js`
 
 The runtime of the experiment is the runtime of the `_runExperiment` method, so `_setup` time is not taken into account.
 
