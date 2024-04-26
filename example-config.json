@@ -38,5 +38,15 @@
       "nrBlocks": 10,
       "blockByteSize": 100
     }
+  ],
+  "demo": [
+    {
+      "nrBlocks": 10,
+      "blockByteSize": 10
+    },
+    {
+      "nrBlocks": 10,
+      "blockByteSize": 100
+    }
   ]
 }

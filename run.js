@@ -10,6 +10,7 @@ const WriteExperiment = require('./lib/write-experiment')
 const ReadExperiment = require('./lib/read-experiment')
 const ReadStreamDownloadExperiment = require('./lib/read-stream-download-experiment')
 const DownloadExperiment = require('./lib/download-experiment')
+const DemoExperiment = require('./lib/demo-experiment')
 
 function loadConfig () {
   const res = {
@@ -72,6 +73,20 @@ async function main () {
 
 async function parseExperimentsConfig (config) {
   const experiments = []
+
+  for (const expConfig of config.demo) {
+    const params = {
+      nrBlocks: expConfig.nrBlocks,
+      blockByteSize: expConfig.blockByteSize
+    }
+
+    experiments.push({
+      experimentClass: DemoExperiment,
+      params,
+      name: 'demo',
+      description: 'Demo Hyperdrive store and access experiement'
+    })
+  }
 
   for (const expConfig of config.download) {
     const params = {
