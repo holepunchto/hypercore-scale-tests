@@ -10,7 +10,7 @@ const WriteExperiment = require('./lib/write-experiment')
 const ReadExperiment = require('./lib/read-experiment')
 const ReadStreamDownloadExperiment = require('./lib/read-stream-download-experiment')
 const DownloadExperiment = require('./lib/download-experiment')
-const DemoExperiment = require('./lib/demo-experiment')
+const DriveGetExperiment = require('./lib/drive-get-experiment')
 
 function loadConfig () {
   const res = {
@@ -81,10 +81,10 @@ async function parseExperimentsConfig (config) {
     }
 
     experiments.push({
-      experimentClass: DemoExperiment,
+      experimentClass: DriveGetExperiment,
       params,
       name: 'demo',
-      description: 'Demo Hyperdrive store and access experiement'
+      description: 'DriveGet Hyperdrive store and access experiement'
     })
   }
 
