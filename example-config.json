@@ -39,7 +39,7 @@
       "blockByteSize": 100
     }
   ],
-  "readDrive": [
+  "readHyperdrive": [
     {
       "nrBlocks": 10,
       "blockByteSize": 10

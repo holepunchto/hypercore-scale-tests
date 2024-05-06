@@ -74,7 +74,7 @@ async function main () {
 async function parseExperimentsConfig (config) {
   const experiments = []
 
-  for (const expConfig of config.demo) {
+  for (const expConfig of config.readHyperdrive) {
     const params = {
       nrBlocks: expConfig.nrBlocks,
       blockByteSize: expConfig.blockByteSize
@@ -83,8 +83,8 @@ async function parseExperimentsConfig (config) {
     experiments.push({
       experimentClass: DriveGetExperiment,
       params,
-      name: 'demo',
-      description: 'DriveGet Hyperdrive store and access experiement'
+      name: 'read_hyperdrive',
+      description: 'Read Hyperdrive files'
     })
   }
 
