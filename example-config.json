@@ -39,7 +39,7 @@
       "blockByteSize": 100
     }
   ],
-  "demo": [
+  "readDrive": [
     {
       "nrBlocks": 10,
       "blockByteSize": 10
