@@ -39,14 +39,14 @@
       "blockByteSize": 100
     }
   ],
-  "readHyperdrive": [
+  "driveGet": [
     {
-      "nrBlocks": 10,
-      "blockByteSize": 10
+      "nrFiles": 10,
+      "fileByteSize": 10
     },
     {
-      "nrBlocks": 10,
-      "blockByteSize": 100
+      "nrFiles": 10,
+      "fileByteSize": 100
     }
   ]
 }
