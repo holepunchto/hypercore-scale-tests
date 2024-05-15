@@ -87,8 +87,8 @@ test('end to end test', async t => {
     'hypercorescale_read{nr_blocks="10",block_byte_size="100"}',
     'hypercorescale_write{nr_blocks="10",block_byte_size="10"} ',
     'hypercorescale_write{nr_blocks="10",block_byte_size="100"}',
-    'hypercorescale_read_hyperdrive{nr_blocks="10",block_byte_size="10"}',
-    'hypercorescale_read_hyperdrive{nr_blocks="10",block_byte_size="100"}'
+    'hypercorescale_drive_get{nr_files="10",file_byte_size="10"}',
+    'hypercorescale_drive_get{nr_files="10",file_byte_size="100"}'
   ]
 
   for (const expected of expectedEntries) {
