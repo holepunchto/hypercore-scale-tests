@@ -38,5 +38,15 @@
       "nrBlocks": 10,
       "blockByteSize": 100
     }
+  ],
+  "driveGet": [
+    {
+      "nrFiles": 10,
+      "fileByteSize": 10
+    },
+    {
+      "nrFiles": 10,
+      "fileByteSize": 100
+    }
   ]
 }
