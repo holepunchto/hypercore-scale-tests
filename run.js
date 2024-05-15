@@ -90,8 +90,8 @@ async function parseExperimentsConfig (config) {
 
   for (const expConfig of config.download) {
     const params = {
-      nrFiles: expConfig.nrFiles,
-      blockFileSize: expConfig.blockFileSize
+      nrBlocks: expConfig.nrBlocks,
+      blockByteSize: expConfig.blockByteSize
     }
 
     experiments.push({
