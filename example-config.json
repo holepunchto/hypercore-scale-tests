@@ -48,5 +48,15 @@
       "nrFiles": 10,
       "fileByteSize": 100
     }
+  ],
+  "driveWrite": [
+    {
+      "nrFiles": 10,
+      "fileByteSize": 10
+    },
+    {
+      "nrFiles": 10,
+      "fileByteSize": 100
+    }
   ]
 }
