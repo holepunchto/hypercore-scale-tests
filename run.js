@@ -11,6 +11,7 @@ const ReadExperiment = require('./lib/read-experiment')
 const ReadStreamDownloadExperiment = require('./lib/read-stream-download-experiment')
 const DownloadExperiment = require('./lib/download-experiment')
 const DriveGetExperiment = require('./lib/drive-get-experiment')
+const DriveWriteExperiment = require('./lib/drive-write-experiment')
 
 function loadConfig () {
   const res = {
@@ -73,6 +74,20 @@ async function main () {
 
 async function parseExperimentsConfig (config) {
   const experiments = []
+
+  for (const expConfig of config.driveWrite) {
+    const params = {
+      nrFiles: expConfig.nrFiles,
+      fileByteSize: expConfig.fileByteSize
+    }
+
+    experiments.push({
+      experimentClass: DriveWriteExperiment,
+      params,
+      name: 'drive_write',
+      description: 'Write files to Hyperdrive'
+    })
+  }
 
   for (const expConfig of config.driveGet) {
     const params = {
