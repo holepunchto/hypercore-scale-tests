@@ -1,5 +1,5 @@
 {
-  "name": "@holepunchto/hypercore-scale-tests",
+  "name": "hypercore-scale-tests",
   "version": "0.0.1-alpha.12",
   "description": "Hypercore scale tests running in a single process",
   "main": "run.js",
