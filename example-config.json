@@ -58,5 +58,15 @@
       "nrFiles": 10,
       "fileByteSize": 100
     }
+  ],
+  "beeWrite": [
+    {
+      "nrEntries": 10,
+      "entryByteSize": 10
+    },
+    {
+      "nrEntries": 10,
+      "entryByteSize": 100
+    }
   ]
 }
