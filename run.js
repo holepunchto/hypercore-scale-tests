@@ -12,6 +12,7 @@ const ReadStreamDownloadExperiment = require('./lib/read-stream-download-experim
 const DownloadExperiment = require('./lib/download-experiment')
 const DriveGetExperiment = require('./lib/drive-get-experiment')
 const DriveWriteExperiment = require('./lib/drive-write-experiment')
+const BeeWriteExperiment = require('./lib/bee-write-experiment')
 
 function loadConfig () {
   const res = {
@@ -74,6 +75,20 @@ async function main () {
 
 async function parseExperimentsConfig (config) {
   const experiments = []
+
+  for (const expConfig of config.beeWrite) {
+    const params = {
+      nrEntries: expConfig.nrEntries,
+      entryByteSize: expConfig.entryByteSize
+    }
+
+    experiments.push({
+      experimentClass: BeeWriteExperiment,
+      params,
+      name: 'bee_write',
+      description: 'Write entries to HyperBee'
+    })
+  }
 
   for (const expConfig of config.driveWrite) {
     const params = {

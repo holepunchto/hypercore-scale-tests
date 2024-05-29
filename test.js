@@ -75,7 +75,7 @@ test('end to end test', async t => {
   await tRunExperiments
 
   const tMetrics = t.test('metric entries')
-  tMetrics.plan(12)
+  tMetrics.plan(14)
 
   const metrics = (await axios.get(`${metricsUrl}/metrics`)).data
   const expectedEntries = [
@@ -90,7 +90,9 @@ test('end to end test', async t => {
     'hypercorescale_drive_get{nr_files="10",file_byte_size="10"}',
     'hypercorescale_drive_get{nr_files="10",file_byte_size="100"}',
     'hypercorescale_drive_write{nr_files="10",file_byte_size="10"}',
-    'hypercorescale_drive_write{nr_files="10",file_byte_size="100"}'
+    'hypercorescale_drive_write{nr_files="10",file_byte_size="100"}',
+    'hypercorescale_bee_write{nr_entries="10",entry_byte_size="10"}',
+    'hypercorescale_bee_write{nr_entries="10",entry_byte_size="100"}'
   ]
 
   for (const expected of expectedEntries) {
